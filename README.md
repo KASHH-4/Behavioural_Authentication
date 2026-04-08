@@ -1,4 +1,5 @@
 # Behavioral Continuous Authentication System
+minor change 
 
 A modular, real-time behavioral continuous authentication system with:
 
