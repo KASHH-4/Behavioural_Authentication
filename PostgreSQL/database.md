@@ -142,6 +142,86 @@ This database supports a real-time behavioral authentication system using sessio
 
 ---
 
+## Security Model (RLS + Backend)
+
+### Overview
+
+The system uses a hybrid security approach:
+
+* Backend (service role) has full access and bypasses RLS.
+* Database enforces RLS for any authenticated access.
+
+---
+
+### Row Level Security (RLS)
+
+RLS is enabled on all tables to ensure strict data isolation.
+
+#### Key Rules
+
+* Access is restricted by **site_id AND user_id**.
+* A user can only access their own data within their site.
+* Cross-site and cross-user access is prevented at the database level.
+
+---
+
+### Access Control
+
+#### Anonymous Users
+
+* All access revoked.
+* No direct database interaction allowed.
+
+#### Authenticated Users
+
+* Allowed: SELECT, INSERT, UPDATE
+* Restricted by RLS policies.
+
+---
+
+### Backend Access
+
+* Backend uses **service role key**.
+* Bypasses all RLS policies.
+* Responsible for:
+
+  * Session management
+  * Batch insertion
+  * ML processing
+  * Profile updates
+  * Cleanup operations
+
+---
+
+### JWT Requirements
+
+For RLS enforcement, JWT must include:
+
+```json
+{
+  "site_id": "<uuid>",
+  "user_id": "<uuid>"
+}
+```
+
+---
+
+### Security Guarantees
+
+* Users cannot access other users' data.
+* Sites cannot access data from other sites.
+* Backend retains full control for processing and analytics.
+
+---
+
+### Important Notes
+
+* Never expose the service role key to clients.
+* Always validate `site_id` in backend requests.
+* RLS acts as a safety layer, not the primary control.
+
+---
+
 ## Summary
 
 This system combines:
