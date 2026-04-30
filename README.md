@@ -157,3 +157,14 @@ print(metrics)
 ## 8. Example Requests
 
 See `examples/api_usage.md` for complete `curl` and SDK examples.
+
+# 9 Cron-Based Session Monitoring
+
+Session monitoring is implemented using Supabase pg_cron.
+
+- Runs every 1 minute
+- Uses a 5-minute sliding window
+- Automatically expires inactive sessions
+
+Documentation: `PostgreSQL/cron_setup.md`  
+SQL Queries: `PostgreSQL/cron_queries.sql`
