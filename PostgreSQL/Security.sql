@@ -1,89 +1,47 @@
+-- =========================================
+-- ENABLE RLS
+-- =========================================
+
 ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sessions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE session_batches ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE results ENABLE ROW LEVEL SECURITY;
 
-REVOKE ALL ON users FROM anon;
-REVOKE ALL ON sessions FROM anon;
-REVOKE ALL ON session_batches FROM anon;
-REVOKE ALL ON user_profiles FROM anon;
-REVOKE ALL ON results FROM anon;
-
-GRANT SELECT, INSERT, UPDATE ON users TO authenticated;
-GRANT SELECT, INSERT, UPDATE ON sessions TO authenticated;
-GRANT SELECT, INSERT, UPDATE ON session_batches TO authenticated;
-GRANT SELECT, INSERT, UPDATE ON user_profiles TO authenticated;
-GRANT SELECT, INSERT, UPDATE ON results TO authenticated;
 
 
 
--- Policies
--- Users
-CREATE POLICY "users_self_access"
+
+-- =========================================
+-- DEVELOPMENT POLICIES
+-- =========================================
+
+CREATE POLICY "allow_all_users"
 ON users
 FOR ALL
-USING (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-)
-WITH CHECK (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-);
+USING (TRUE)
+WITH CHECK (TRUE);
 
-
--- Sessions
-CREATE POLICY "sessions_self_access"
+CREATE POLICY "allow_all_sessions"
 ON sessions
 FOR ALL
-USING (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-)
-WITH CHECK (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-);
+USING (TRUE)
+WITH CHECK (TRUE);
 
-
--- Session Batches
-CREATE POLICY "batches_self_access"
+CREATE POLICY "allow_all_batches"
 ON session_batches
 FOR ALL
-USING (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-)
-WITH CHECK (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-);
+USING (TRUE)
+WITH CHECK (TRUE);
 
-
--- User Profiles
-CREATE POLICY "profiles_self_access"
+CREATE POLICY "allow_all_profiles"
 ON user_profiles
 FOR ALL
-USING (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-)
-WITH CHECK (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-);
+USING (TRUE)
+WITH CHECK (TRUE);
 
-
--- results
-CREATE POLICY "results_self_access"
+CREATE POLICY "allow_all_results"
 ON results
 FOR ALL
-USING (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-)
-WITH CHECK (
-  site_id = (auth.jwt() ->> 'site_id')::uuid
-  AND user_id = (auth.jwt() ->> 'user_id')::uuid
-);
+USING (TRUE)
+WITH CHECK (TRUE);
